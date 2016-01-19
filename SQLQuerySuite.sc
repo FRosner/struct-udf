@@ -10,7 +10,7 @@ val df = Seq(
 import org.apache.spark.sql._
 import org.apache.spark.sql.types._
 
-val udf = StructUserDefinedFunction(
+val udf = PublicUserDefinedFunction(
   f = (in: Row) => if (in.isNullAt(1)) null else in.getString(1),
   inputTypes = Some(List(
     StructType(List(
