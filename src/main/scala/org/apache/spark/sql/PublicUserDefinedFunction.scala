@@ -13,4 +13,9 @@ case class PublicUserDefinedFunction(f: AnyRef,
     Column(ScalaUDF(f, dataType, exprs.map(_.expr), inputTypes.getOrElse(Nil)))
   }
 
+  def registerAt(sql: SQLContext, name: String) = {
+    def builder(e: Seq[Expression]) = ScalaUDF(f, dataType, e, inputTypes.getOrElse(Nil))
+    sql.functionRegistry.registerFunction(name, builder)
+  }
+
 }

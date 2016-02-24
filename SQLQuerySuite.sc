@@ -1,3 +1,5 @@
+import org.apache.spark.sql.PublicUserDefinedFunction
+
 case class KeyValue(key: Long, value: String)
 case class KeyValueRow(kv: KeyValue)
 val df = Seq(
@@ -22,3 +24,7 @@ val udf = PublicUserDefinedFunction(
 )
 
 df.select(udf(df("kv"))).show
+
+udf.registerAt(sqlContext, "myudf")
+df.registerTempTable("df")
+sqlContext.sql("select myudf(kv) from df").show
